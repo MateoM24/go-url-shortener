@@ -1,7 +1,6 @@
 package urlshort
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -44,18 +43,15 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 func YAMLHandler(yml []byte, fallback http.Handler) (http.HandlerFunc, error) {
 	parsedYaml := parseYaml(yml)
 	pathMap := buildMap(parsedYaml)
-	fmt.Println(pathMap)
 	return MapHandler(pathMap, fallback), nil
 }
 
 func parseYaml(yml []byte) []UrlPathPair {
-	fmt.Println(yml)
 	result := new([]UrlPathPair)
 	err := yaml.Unmarshal(yml, &result)
 	if err != nil {
 		log.Fatalln("Cannot parse yaml config file")
 	}
-	fmt.Println(*result)
 	return *result
 }
 
